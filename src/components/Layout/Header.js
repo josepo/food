@@ -11,7 +11,7 @@ const Header = () =>
             <HeaderCartButton />
          </header>
          <div className={ css['main-image'] }>
-            <img src={ bg } />
+            <img alt='background' src={ bg } />
          </div>
       </>
    );
