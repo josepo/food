@@ -9,7 +9,7 @@ const HeaderCartButton = () =>
             <CartIcon />
          </span>
          <span>Your cart</span>
-         <span class={ css.badge }>
+         <span className={ css.badge }>
             0
          </span>
       </button>
