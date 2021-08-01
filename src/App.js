@@ -3,6 +3,7 @@ import './App.css';
 import Cart from './components/Cart/Cart';
 import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
+import CartProvider from './store/CartProvider';
 
 const App = () =>
 {
@@ -12,13 +13,13 @@ const App = () =>
    const hideCart = () => { setCartIsVisible(false); };
 
    return (
-      <>
+      <CartProvider>
          { cartIsVisible && <Cart onClose={ hideCart } /> }
          <Header onShowCart={ showCart } />
          <main>
             <Meals />
          </main>
-      </>
+      </CartProvider>
    );
 }
 
