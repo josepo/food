@@ -6,21 +6,34 @@ const defaultCartState = {
    amount: 0
 };
 
-const cartReducer = (state, action) =>
-{
-   if (action.type === 'ADD')
-   {
-      return {
-         items: state.items.concat(action.item),
-         amount: state.amount + action.item.price * action.item.amount
+const cartReducer = (state, action) => {
+   if (action.type === 'ADD') {
+      const amount = state.amount + action.item.price * action.item.amount
+
+      const index = state.items.findIndex(item => item.id === action.item.id);
+      const existingItem = state.items[index];
+
+      let items;
+
+      if (existingItem) {
+         const item = { ...existingItem, amount: existingItem.amount + action.item.amount };
+
+         items = [...state.items];
+         items[index] = item;
+      } else {
+         items = state.items.concat(action.item);
       }
+
+      return {
+         items: items,
+         amount: amount
+      };
    }
 
    return defaultCartState;
 };
 
-const CartProvider = ({ children }) =>
-{
+const CartProvider = ({ children }) => {
    const [cart, dispatch] = useReducer(cartReducer, defaultCartState);
 
    const context = {
@@ -31,8 +44,8 @@ const CartProvider = ({ children }) =>
    };
 
    return (
-      <CartContext.Provider value={ context }>
-         { children }
+      <CartContext.Provider value={context}>
+         {children}
       </CartContext.Provider>
    );
 };
