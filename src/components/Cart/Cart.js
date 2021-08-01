@@ -12,13 +12,8 @@ const Cart = ({ onClose }) => {
    const amount = `$${ctx.total.toFixed(2)}`;
    const hasItems = ctx.items.length > 0;
 
-   const removeItem = id => {
-
-   };
-
-   const addItem = item => {
-
-   };
+   const removeItem = id => { ctx.removeItem(id); };
+   const addItem = item => { ctx.addItem({ ...item, amount: 1 }) };
 
    const items = (
       <ul className={css['cart-items']}>
@@ -29,8 +24,8 @@ const Cart = ({ onClose }) => {
                   name={item.name}
                   amount={item.amount}
                   price={item.price}
-                  onRemove={removeItem}
-                  onAdd={addItem} />)
+                  onRemove={removeItem.bind(null, item.id)}
+                  onAdd={addItem.bind(null, item)} />)
          }
       </ul>
    );
