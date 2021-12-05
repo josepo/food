@@ -51,6 +51,10 @@ const cartReducer = (state, action) => {
       }
    }
 
+   if (action.type === 'CLEAR') {
+      return defaultCartState;
+   }
+
    return defaultCartState;
 };
 
@@ -61,7 +65,8 @@ const CartProvider = ({ children }) => {
       items: cart.items,
       total: cart.amount,
       addItem: item => { dispatch({ type: 'ADD', item: item }); },
-      removeItem: id => { dispatch({ type: 'REMOVE', id: id }); }
+      removeItem: id => { dispatch({ type: 'REMOVE', id: id }); },
+      clear: () => { dispatch({ type: 'CLEAR' })}
    };
 
    return (

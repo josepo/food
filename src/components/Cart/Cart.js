@@ -10,6 +10,8 @@ import Checkout from './Checkout';
 const Cart = ({ onClose }) => {
    const ctx = useContext(CartContext);
    const [checkingOut, setCheckingOut] = useState(false);
+   const [ordering, setOrdering] = useState(false);
+   const [didSubmit, setDidSubmit] = useState(false);
 
    const amount = `$${ctx.total.toFixed(2)}`;
    const hasItems = ctx.items.length > 0;
@@ -17,14 +19,20 @@ const Cart = ({ onClose }) => {
    const removeItem = id => { ctx.removeItem(id); };
    const addItem = item => { ctx.addItem({ ...item, amount: 1 }) };
 
-   const order = (user) => {
-      fetch('https://meals-data-d7428-default-rtdb.firebaseio.com/orders.json', {
+   const order = async (user) => {
+      setOrdering(true);
+
+      await fetch('https://meals-data-d7428-default-rtdb.firebaseio.com/orders.json', {
          method: 'POST',
          body: JSON.stringify({
             user: user,
             items: ctx.items
          })
       });
+
+      setOrdering(false);
+      setDidSubmit(true);
+      ctx.clear();
    };
 
    const items = (
@@ -53,8 +61,8 @@ const Cart = ({ onClose }) => {
          }
       </div>;
 
-   return (
-      <Modal onClose={onClose}>
+   const content = (
+      <>
          {items}
          <div className={css.total}>
             <span>Total amount</span>
@@ -62,6 +70,14 @@ const Cart = ({ onClose }) => {
          </div>
          { checkingOut && <Checkout onConfirm={ order } onCancel={ onClose } /> }
          { !checkingOut && actions }
+      </>
+   );
+
+   return (
+      <Modal onClose={onClose}>
+         { didSubmit && <p>Your order was sent.</p> }
+         { ordering && <p>Sending order data...</p> }
+         { !ordering && !didSubmit && content }
       </Modal>
    );
 };

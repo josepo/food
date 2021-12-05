@@ -8,7 +8,7 @@ const Checkout = (props) => {
    const [validity, setValidity] = useState({
       name: true,
       street: true,
-      postalColde: true,
+      postalCode: true,
       city: true
    });
 
@@ -62,7 +62,7 @@ const Checkout = (props) => {
       <div className={`${classes.control} ${validity.postalCode ? '' : classes.invalid}`}>
         <label htmlFor='postal'>Postal Code</label>
         <input type='text' id='postal' ref={ postalCodeRef } />
-        { !validity.postalColde && <p>Enter a valid postal code</p> }
+        { !validity.postalCode && <p>Enter a valid postal code</p> }
       </div>
       <div className={`${classes.control} ${validity.city ? '' : classes.invalid}`}>
         <label htmlFor='city'>City</label>
