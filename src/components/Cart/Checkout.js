@@ -37,13 +37,13 @@ const Checkout = (props) => {
        city: cityIsValid
     });
 
-   const valid =
-      nameIsValid && streetIsValid && postalCodeIsValid && cityIsValid;
-
-   if (valid) {
-      // submit
-   } else {
-
+   if (nameIsValid && streetIsValid && postalCodeIsValid && cityIsValid) {
+      props.onConfirm({
+         name: name,
+         street: street,
+         postalCode: postalCode,
+         city: city
+      });
    }
   };
 

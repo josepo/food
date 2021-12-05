@@ -17,6 +17,16 @@ const Cart = ({ onClose }) => {
    const removeItem = id => { ctx.removeItem(id); };
    const addItem = item => { ctx.addItem({ ...item, amount: 1 }) };
 
+   const order = (user) => {
+      fetch('https://meals-data-d7428-default-rtdb.firebaseio.com/orders.json', {
+         method: 'POST',
+         body: JSON.stringify({
+            user: user,
+            items: ctx.items
+         })
+      });
+   };
+
    const items = (
       <ul className={css['cart-items']}>
          {
@@ -50,7 +60,7 @@ const Cart = ({ onClose }) => {
             <span>Total amount</span>
             <span>{amount}</span>
          </div>
-         { checkingOut && <Checkout onCancel={ onClose } /> }
+         { checkingOut && <Checkout onConfirm={ order } onCancel={ onClose } /> }
          { !checkingOut && actions }
       </Modal>
    );
