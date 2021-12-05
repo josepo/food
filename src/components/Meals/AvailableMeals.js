@@ -6,6 +6,7 @@ import MealItem from './MealItem/MealItem';
 
 const AvailableMeals = () => {
    const [meals, setMeals] = useState([]);
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       const getMeals = async() => {
@@ -23,13 +24,21 @@ const AvailableMeals = () => {
             });
 
          setMeals(dbMeals);
+         setLoading(false);
       }
 
       getMeals();
    }, [])
 
+   if (loading)
+      return (
+         <section className={ css.loading }>
+            <p>Loading...</p>
+         </section>
+      );
+
    return (
-      <section className={css.meals}>
+      <section className={ css.meals }>
          <Card>
             <ul>
                { meals.map(meal => <MealItem id={ meal.id } key={ meal.id } meal={ meal } />) }
